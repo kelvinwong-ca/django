@@ -148,6 +148,11 @@ class AuthorDelete(generic.DeleteView):
     success_url = '/list/authors/'
 
 
+class LazyAuthorDelete(generic.DeleteView):
+    model = Author
+    success_url = reverse_lazy('authors_list')
+
+
 class SpecializedAuthorDelete(generic.DeleteView):
     queryset = Author.objects.all()
     template_name = 'generic_views/confirm_delete.html'

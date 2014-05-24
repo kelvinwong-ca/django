@@ -283,6 +283,13 @@ class DeleteViewTests(TestCase):
         self.assertRedirects(res, 'http://testserver/edit/authors/create/')
         self.assertQuerysetEqual(Author.objects.all(), [])
 
+    def test_delete_with_lazy_redirect(self):
+        a = Author.objects.create(**{'name': 'Randall Munroe', 'slug': 'randall-munroe'})
+        res = self.client.post('/edit/author/%d/delete/lazy_redirect/' % a.pk)
+        self.assertEqual(res.status_code, 302)
+        self.assertRedirects(res, 'http://testserver/list/authors/')
+        self.assertQuerysetEqual(Author.objects.all(), [])
+
     def test_delete_with_special_properties(self):
         a = Author.objects.create(**{'name': 'Randall Munroe', 'slug': 'randall-munroe'})
         res = self.client.get('/edit/author/%d/delete/special/' % a.pk)

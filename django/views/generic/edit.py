@@ -251,7 +251,7 @@ class DeletionMixin(object):
 
     def get_success_url(self):
         if self.success_url:
-            return self.success_url
+            return force_text(self.success_url)
         else:
             raise ImproperlyConfigured(
                 "No URL to redirect to. Provide a success_url.")
